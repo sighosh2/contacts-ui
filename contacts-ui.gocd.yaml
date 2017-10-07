@@ -87,5 +87,8 @@ pipelines:
                    arguments:
                      - "-c"
                      - "echo ${DOCKERHUB_USER}/`cat contacts-ui-version.txt` > contacts-ui-image-version.txt"
+              artifacts:
+                - build:
+                    source: contacts-ui-image-version.txt
               resources:
                 - docker
