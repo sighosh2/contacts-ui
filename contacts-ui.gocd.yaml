@@ -82,29 +82,10 @@ pipelines:
                    arguments:
                      - "-c"
                      - "docker push ${DOCKERHUB_USER}/`cat contacts-ui-version.txt`"
-              resources:
-                - docker
-  frontend-deploy:
-    group: contacts-app
-    materials:
-      packaging:
-        pipeline: frontend-package
-        stage: publish
-    stages:
-      - deploy:
-          jobs:
-            build:
-              tasks:
-                - fetch:
-                   pipeline: frontend-package
-                   stage: build
-                   job: build
-                   is_file: yes
-                   source: contacts-ui-version.txt
                 - exec:
                    command: bash
                    arguments:
                      - "-c"
-                     - "kubectl set image deployment/hello-minikube  hello-minikube=${DOCKERHUB_USER}/`cat contacts-ui-version.txt`"
+                     - "echo ${DOCKERHUB_USER}/`cat contacts-ui-version.txt` > contacts-ui-image-version.txt"
               resources:
-                - deployer
+                - docker
