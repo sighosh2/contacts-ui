@@ -47,7 +47,7 @@ pipelines:
                    command: bash
                    arguments:
                      - "-c"
-                     - "docker build -t contacts-ui:${GO_PIPELINE_LABEL} -f Dockerfile.build ."
+                     - "docker build -t contacts-ui:${GO_PIPELINE_LABEL} -f Dockerfile ."
                 - exec:
                    command: bash
                    arguments:
