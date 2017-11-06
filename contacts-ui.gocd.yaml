@@ -2,6 +2,8 @@ environments:
   contacts-ui-docker:
     pipelines:
       - frontend-package
+      - frontend-compile
+      - frontend-deploy
 
 pipelines:
   frontend-compile:
