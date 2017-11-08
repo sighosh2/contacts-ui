@@ -94,7 +94,7 @@ pipelines:
                     source: contacts-ui-image-version.txt
               resources:
                 - docker
-  frontend-deploy:
+  app-deploy:
     group: contacts-app
     materials:
       packaging:
@@ -102,6 +102,9 @@ pipelines:
         stage: publish
       mygit:
         git: https://github.com/darshanj/pipeline-configs.git
+      api:
+        pipeline: api-deploy
+        stage: deploy
     stages:
       - deploy:
           jobs:
