@@ -3,7 +3,7 @@ environments:
     pipelines:
       - frontend-package
       - frontend-compile
-      - frontend-deploy
+      - app-deploy
 
 pipelines:
   frontend-compile:
