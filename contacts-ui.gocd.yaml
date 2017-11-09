@@ -126,7 +126,7 @@ pipelines:
                    command: bash
                    arguments:
                      - "-c"
-                     - "sed -e \"s|CONTACTS_APP_NAME|`cat contacts-ui-image-version.txt`_`cat contacts-api-image-version.txt`|\" contacts-ui-deployment.yml"
+                     - "sed -e \"s|CONTACTS_APP_NAME|`cat contacts-ui-image-version.txt`_`cat contacts-api-image-version.txt`|\" -i contacts-ui-deployment.yml"
                 - exec:
                    command: bash
                    arguments:
