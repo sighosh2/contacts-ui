@@ -105,6 +105,7 @@ pipelines:
         stage: publish
       mygit:
         git: https://github.com/darshanj/pipeline-configs.git
+        auto_update: false
     stages:
       - deploy:
           jobs:
