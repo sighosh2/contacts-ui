@@ -100,7 +100,7 @@ pipelines:
       packaging:
         pipeline: frontend-package
         stage: publish
-      packaging:
+      apipackaging:
         pipeline: api-package
         stage: publish
       mygit:
