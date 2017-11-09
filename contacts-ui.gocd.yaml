@@ -3,7 +3,7 @@ environments:
     pipelines:
       - frontend-package
       - frontend-compile
-      - app-deploy
+      - website-deploy
 
 pipelines:
   frontend-compile:
@@ -94,17 +94,17 @@ pipelines:
                     source: contacts-ui-image-version.txt
               resources:
                 - docker
-  app-deploy:
+  website-deploy:
     group: contacts-app
     materials:
       packaging:
         pipeline: frontend-package
         stage: publish
+      packaging:
+        pipeline: api-package
+        stage: publish
       mygit:
         git: https://github.com/darshanj/pipeline-configs.git
-      api:
-        pipeline: api-deploy
-        stage: deploy
     stages:
       - deploy:
           jobs:
@@ -116,6 +116,17 @@ pipelines:
                    job: publish
                    is_file: yes
                    source: contacts-ui-image-version.txt
+                - fetch:
+                   pipeline: api-package
+                   stage: publish
+                   job: publish
+                   is_file: yes
+                   source: contacts-api-image-version.txt
+                - exec:
+                   command: bash
+                   arguments:
+                     - "-c"
+                     - "sed -e \"s|CONTACTS_APP_NAME|`cat contacts-ui-image-version.txt`_`cat contacts-api-image-version.txt`|\" contacts-ui-deployment.yml"
                 - exec:
                    command: bash
                    arguments:
@@ -131,5 +142,20 @@ pipelines:
                    arguments:
                      - "-c"
                      - "kubectl apply -f contacts-ui-service.yml --validate=false"
+                - exec:
+                   command: bash
+                   arguments:
+                     - "-c"
+                     - "sed -e \"s|CONTACTS_API_IMAGE|`cat contacts-api-image-version.txt`|\" -i contacts-api-deployment.yml"
+                - exec:
+                   command: bash
+                   arguments:
+                     - "-c"
+                     - "kubectl apply -f contacts-api-deployment.yml --validate=false"
+                - exec:
+                   command: bash
+                   arguments:
+                     - "-c"
+                     - "kubectl apply -f contacts-api-service.yml --validate=false"
               resources:
                 - deployer
